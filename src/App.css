@@ -46,16 +46,23 @@ body {
 
 /* メインコンテンツエリア */
 .main-content {
+  width: 100%;
   min-height: 100vh;
 }
 
 /* ページ共通スタイル */
 .page {
-  margin: 0 40px 0 auto;
-  width: 84%;
+  width: 100%;
   min-height: 100vh;
   padding: 60px 40px 40px;
   animation: fadeIn 0.6s ease-in-out;
+  /* 左下のメニューと重ならないように左側に余白を追加 */
+  padding-left: 280px;
+}
+
+/* ホームページは特殊レイアウトのため除外 */
+.home-page {
+  padding: 0;
 }
 
 /* フェードインアニメーション */
@@ -110,6 +117,9 @@ body {
   box-shadow: 0 4px 12px var(--shadow);
   margin-bottom: 2rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* 左側のメニューとの重なりを防ぐため、最小幅を設定 */
+  width: 100%;
+  max-width: 100%;
 }
 
 .content-card:hover {
@@ -118,6 +128,26 @@ body {
 }
 
 /* レスポンシブ対応 */
+@media (max-width: 1024px) {
+  .page {
+    padding: 40px 20px 20px;
+    /* タブレット以下では左余白を通常に戻す（メニューがハンバーガーになるため） */
+    padding-left: 20px;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  .page-subtitle {
+    font-size: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
   .page {
     padding: 40px 20px 20px;

@@ -1,7 +1,8 @@
 // src/components/Navigation.tsx
 // 左下に固定表示されるナビゲーションメニュー
 // PC表示時は全テキスト表示、モバイルではハンバーガーメニュー
-import { useState } from 'react'
+// スクロール時は自動的にコンパクト化してコンテンツと重ならないように配慮
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import './Navigation.css'
 
@@ -15,8 +16,34 @@ interface MenuItem {
 function Navigation() {
   // メニューの開閉状態を管理（モバイル用）
   const [isOpen, setIsOpen] = useState(false)
+  // メニューホバー状態を管理
+  const [isHovered, setIsHovered] = useState(false)
+  // スクロール状態を管理（コンパクト化の判定用）
+  const [isScrolled, setIsScrolled] = useState(false)
   // 現在のページパスを取得
   const location = useLocation()
+
+  // スクロール監視：100px以上スクロールしたらコンパクトモードに
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY
+      setIsScrolled(scrollPosition > 100)
+    }
+
+    // スクロールイベントを監視（パフォーマンスのためpassiveオプション使用）
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    // 初期状態をチェック
+    handleScroll()
+
+    // クリーンアップ
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  // ページ遷移時にメニューを閉じる
+  useEffect(() => {
+    setIsOpen(false)
+  }, [location.pathname])
 
   // メニュー項目の定義
   const menuItems: MenuItem[] = [
@@ -38,7 +65,11 @@ function Navigation() {
   }
 
   return (
-    <nav className={`navigation ${isOpen ? 'open' : ''}`}>
+    <nav 
+      className={`navigation ${isOpen ? 'open' : ''} ${isScrolled && !isHovered ? 'compact' : ''}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {/* モバイル用メニュー開閉ボタン */}
       <button 
         className="nav-toggle" 

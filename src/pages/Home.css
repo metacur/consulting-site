@@ -1,5 +1,5 @@
 /* src/pages/Home.css */
-/* トップページ */
+/* トップページの洗練されたスタイル */
 
 .home-page {
   width: 100%;
@@ -219,8 +219,8 @@
 .content-section {
   background: #ffffff;
   padding: 120px 80px;
-  margin:0 0 0 auto;
-  width: 87%;
+  /* 左下のメニューと重ならないように左側に余白を追加 */
+  padding-left: 280px;
 }
 
 /* サービスグリッド */
@@ -464,6 +464,8 @@
 
   .content-section {
     padding: 80px 40px;
+    /* タブレット以下では左余白を通常に戻す */
+    padding-left: 40px;
   }
 
   .service-grid {
@@ -524,6 +526,8 @@
 
   .content-section {
     padding: 60px 20px;
+    /* スマホでは左余白を通常に戻す */
+    padding-left: 20px;
   }
 
   .service-grid {
